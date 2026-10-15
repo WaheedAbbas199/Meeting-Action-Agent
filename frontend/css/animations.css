@@ -1,0 +1,23 @@
+/* Motion is transform/opacity only and is disabled under prefers-reduced-motion. */
+@keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes pop-in { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes slide-in-right { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes toast-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse-dot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.55; } }
+@keyframes grow-bar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes status-flash { 0% { box-shadow: 0 0 0 0 var(--primary-soft); } 50% { box-shadow: 0 0 0 6px var(--primary-soft); } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+.page-enter { animation: fade-up var(--dur-base) var(--ease-out) both; }
+.stagger > * { animation: fade-up var(--dur-slow) var(--ease-out) both; animation-delay: calc(var(--i, 0) * 45ms); }
+.flash { animation: status-flash 700ms var(--ease-out); }
+.spinner { width: 1em; height: 1em; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; display: inline-block; animation: spin 700ms linear infinite; vertical-align: -0.125em; }
+.bar-grow { transform-origin: bottom; animation: grow-bar var(--dur-slow) var(--ease-out) both; animation-delay: calc(var(--i, 0) * 30ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
+  .spinner { animation-duration: 1.6s !important; animation-iteration-count: infinite !important; } /* progress must stay visible */
+}

@@ -1,0 +1,86 @@
+/* Design tokens: the only place raw values live. Themes swap the color tokens. */
+:root {
+  color-scheme: light;
+  /* surfaces & ink */
+  --bg: #f5f3ee;
+  --surface: #ffffff;
+  --surface-2: #faf9f6;
+  --surface-sunk: #eeebe4;
+  --border: #e3dfd5;
+  --border-strong: #cfc9bb;
+  --ink: #101a30;
+  --ink-2: #4a5470;
+  --ink-3: #566079;
+  --on-primary: #ffffff;
+  /* brand */
+  --primary: #4338ca;
+  --primary-hover: #3730a3;
+  --primary-soft: #e8e7fb;
+  --primary-on-soft: #3730a3;
+  --accent: #0b8f7e;
+  --accent-soft: #dcf3ef;
+  /* status (all pass 4.5:1 on their soft background) */
+  --success: #17703f;
+  --success-soft: #dcf2e4;
+  --warning: #8a5300;
+  --warning-soft: #fcefd0;
+  --danger: #b4231f;
+  --danger-soft: #fbe3e1;
+  --info: #1d4f91;
+  --info-soft: #e0ecfb;
+  --focus: #4338ca;
+  --overlay: rgba(16, 26, 48, 0.45);
+  --shadow-1: 0 1px 2px rgba(16, 26, 48, 0.06), 0 1px 1px rgba(16, 26, 48, 0.04);
+  --shadow-2: 0 6px 20px rgba(16, 26, 48, 0.1), 0 2px 6px rgba(16, 26, 48, 0.06);
+  --shadow-3: 0 24px 60px rgba(16, 26, 48, 0.22);
+
+  /* spacing (4px base) */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px; --s-6: 24px; --s-8: 32px; --s-10: 40px; --s-12: 48px;
+  /* radii */
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-pill: 999px;
+  /* type */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --fs-page: 1.875rem; --fs-section: 1.125rem; --fs-card: 1rem; --fs-body: 0.9375rem; --fs-label: 0.8125rem; --fs-meta: 0.78rem; --fs-table: 0.875rem;
+  /* motion */
+  --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 320ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* layers */
+  --z-sticky: 20; --z-sidebar: 30; --z-dropdown: 40; --z-drawer: 60; --z-modal: 70; --z-toast: 90;
+  --sidebar-w: 248px; --sidebar-w-collapsed: 68px; --topbar-h: 60px;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b1220;
+  --surface: #131c30;
+  --surface-2: #17213a;
+  --surface-sunk: #0f1728;
+  --border: #25314d;
+  --border-strong: #35446a;
+  --ink: #eef1f8;
+  --ink-2: #b4bdd3;
+  --ink-3: #8f9bb8;
+  --on-primary: #0b1220;
+  --primary: #8b83ff;
+  --primary-hover: #a39dff;
+  --primary-soft: #26285a;
+  --primary-on-soft: #cfcbff;
+  --accent: #34d3bd;
+  --accent-soft: #11373a;
+  --success: #5bd68c;
+  --success-soft: #123a26;
+  --warning: #f2b44c;
+  --warning-soft: #3d2c0d;
+  --danger: #ff8a85;
+  --danger-soft: #451a1a;
+  --info: #8fbcff;
+  --info-soft: #172c4d;
+  --focus: #a39dff;
+  --overlay: rgba(2, 6, 16, 0.65);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-3: 0 24px 60px rgba(0, 0, 0, 0.6);
+}

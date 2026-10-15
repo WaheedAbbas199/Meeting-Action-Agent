@@ -1,0 +1,36 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: var(--fs-body); line-height: 1.5;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+h1, h2, h3, h4 { margin: 0; line-height: 1.2; font-weight: 600; }
+h1 { font-family: var(--font-display); font-size: var(--fs-page); letter-spacing: -0.01em; font-weight: 600; }
+h2 { font-size: var(--fs-section); }
+h3 { font-size: var(--fs-card); }
+p { margin: 0; }
+a { color: var(--primary); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--primary-hover); }
+code, kbd { font-family: var(--font-mono); font-size: 0.85em; background: var(--surface-sunk); padding: 1px 5px; border-radius: var(--r-sm); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: var(--r-sm); }
+::selection { background: var(--primary-soft); }
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.skip-link { position: absolute; left: var(--s-4); top: -60px; background: var(--primary); color: var(--on-primary); padding: var(--s-2) var(--s-4); border-radius: var(--r-md); z-index: 200; transition: top var(--dur-fast); }
+.skip-link:focus { top: var(--s-3); }
+.muted { color: var(--ink-2); }
+.meta { color: var(--ink-3); font-size: var(--fs-meta); }
+.mono { font-family: var(--font-mono); }
+.row { display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.stack { display: flex; flex-direction: column; gap: var(--s-4); }
+.stack-sm { display: flex; flex-direction: column; gap: var(--s-2); }
+.grow { flex: 1 1 auto; min-width: 0; }
+.grid { display: grid; gap: var(--s-4); }
+.grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid.auto { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 960px) { .grid.cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .grid.cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .grid.cols-2, .grid.cols-3, .grid.cols-4 { grid-template-columns: minmax(0, 1fr); } h1 { font-size: 1.5rem; } }
