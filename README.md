@@ -1,63 +1,155 @@
-# Meeting Action Agent
+# 🤖 Meeting Action Agent
 
-Turns meeting conversations into **verified, trackable execution**: paste or upload a transcript, review evidence-backed decisions and tasks, track commitments and dependencies, spot risks, recall past meetings, and follow up through **human-approved** email and WhatsApp.
+**Turn Meeting Conversations into Clear, Actionable Tasks with AI**
 
-> Honest status: everything below was run and tested locally with mocked external providers. Gemini, Gmail, WhatsApp Cloud API and PostgreSQL code paths are implemented but **not verified** against live services. See [docs/STATUS.md](docs/STATUS.md).
+Meeting Action Agent is an AI-powered application designed to help teams convert meeting conversations into structured summaries, action items, task owners, and deadlines.
 
-## Quick start (local, no credentials needed)
+The goal is to reduce manual follow-up work and help teams keep track of decisions and responsibilities after meetings.
+
+## ✨ Key Features
+
+- **Meeting Summarization** — Generate concise summaries from meeting content.
+- **Action Item Extraction** — Identify tasks and follow-up actions from conversations.
+- **Task Organization** — Structure extracted actions into readable, actionable items.
+- **AI Integration** — Use an AI model to process meeting content.
+- **Google Integration** — Support Google account integration where configured.
+- **Environment-Based Configuration** — Keep credentials and application settings outside the source code.
+
+> Feature availability depends on the current project implementation and configured integrations.
+
+## 🎯 Problem Statement
+
+Important decisions and responsibilities can get lost after meetings. Manually reviewing notes and creating follow-up tasks takes time and can lead to missed actions.
+
+Meeting Action Agent aims to simplify this workflow by transforming meeting content into structured information that people can review and act on.
+
+## 🏗️ Workflow
+
+1. Provide meeting content to the application.
+2. Process the content using the configured AI workflow.
+3. Generate a meeting summary and identify potential action items.
+4. Organize the results for review.
+5. Use the extracted tasks for follow-up, with human review where appropriate.
+
+## 🛠️ Technology Stack
+
+Update this list to match the technologies actually used in your repository.
+
+- **Language:** Python
+- **AI / LLM:** Configured language model provider
+- **Integrations:** Google OAuth / APIs, if configured
+- **Configuration:** Environment variables
+- **Version Control:** Git and GitHub
+
+## 📂 Project Structure
+
+Example structure — adjust it to match your actual files.
+
+```text
+meeting-action-agent/
+├── app/
+│   ├── main.py
+│   ├── services/
+│   └── ...
+├── tests/
+├── .env.example
+├── .gitignore
+├── requirements.txt
+├── README.md
+└── ...
+```
+
+## ⚙️ Installation
+
+### 1. Clone the repository
 
 ```bash
-cd backend
-python3 -m venv .venv && source .venv/bin/activate      # Python 3.12
-pip install -r requirements.txt
-python -m app.seed                                       # optional: labelled demo workspace
-uvicorn app.main:app --reload                            # http://127.0.0.1:8000
+git clone https://github.com/YOUR-USERNAME/meeting-action-agent.git
+cd meeting-action-agent
 ```
 
-Demo login (after seeding): `demo@example.com` / `demo-password-123`. Or just click **Create an account** on the sign-in page.
+### 2. Create a virtual environment
 
-Defaults: SQLite database in `backend/data/`, rule-based extraction (no AI), email/WhatsApp **disabled**. To try the approval flow without sending anything real, set `EMAIL_PROVIDER=mock` (development only) and enable it in *Settings → Integrations*.
+**Windows PowerShell**
 
-## Run the tests
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+### 3. Install dependencies
 
 ```bash
-cd backend && pip install -r requirements-dev.txt
-ruff check . && pytest -q                       # 54 tests: unit, API, security, migrations
-cd .. && python -m playwright install chromium   # once
-pytest e2e -q                                    # 9 real-browser tests against a live server
+python -m pip install -r requirements.txt
 ```
 
-## Docker (PostgreSQL)
+### 4. Configure environment variables
+
+Create a local `.env` file using the project's example:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Add the required configuration values according to the application's setup instructions.
+
+**Never commit `.env` files, API keys, OAuth client secrets, or access tokens.**
+
+### 5. Run the application
+
+Use the actual startup command documented in the project. For example, if the application exposes a FastAPI instance at `app.main:app`:
 
 ```bash
-export POSTGRES_PASSWORD=$(openssl rand -hex 16) JWT_SECRET=$(openssl rand -hex 32)
-docker compose up --build        # http://localhost:8000, migrations run on start
+python -m uvicorn app.main:app --reload
 ```
 
-The Docker and PostgreSQL setup was written but **not built or run** in the environment this was produced in.
+Open the local URL shown in the terminal.
 
-## Using real providers
+## 🔐 Security Notes
 
-| Capability | Env vars | Notes |
-|---|---|---|
-| Model extraction + memory answers | `LLM_PROVIDER=gemini`, `GEMINI_API_KEY`, `GEMINI_MODEL` | Model name is configurable; confirm availability for your key |
-| Audio transcription | `STT_PROVIDER=gemini` (+ key) | Max 20 MB inline upload |
-| Email | `EMAIL_PROVIDER=gmail`, `GMAIL_*` | Gmail API, OAuth refresh token |
-| WhatsApp | `WHATSAPP_PROVIDER=cloud`, `WHATSAPP_*` | Official Cloud API; business-initiated messages need an approved template (`WHATSAPP_TEMPLATE_NAME`); webhook at `/api/webhooks/whatsapp` is signature-validated |
+- Store secrets in environment variables.
+- Keep OAuth credentials and tokens out of version control.
+- Request only the Google permissions required by the application.
+- Review AI-generated summaries and action items before taking important actions.
+- Avoid uploading confidential meeting recordings or personal information to unapproved services.
 
-Copy `.env.example` to `.env`. Never commit secrets. Real sends are blocked when `APP_ENV=test`.
+## 🧪 Testing
 
-## What is where
+Run the project's available tests using the documented test command. If it uses pytest:
 
-```
-backend/app/          FastAPI app: routers/, services/ (rules), providers/ (LLM, STT, email, WhatsApp), graph/ (LangGraph pipeline), models.py
-backend/alembic/      Database migrations
-backend/tests/        Unit, API, security, migration tests
-frontend/             Vanilla JS (ES modules) + CSS design system, served by FastAPI
-e2e/                  Playwright browser tests
-docs/                 ARCHITECTURE, API, DESIGN_SYSTEM, DEPLOYMENT, TROUBLESHOOTING, STATUS
+```bash
+python -m pytest
 ```
 
-## Safety model in one paragraph
+Test results and supported functionality should be documented as they are verified.
 
-AI output is *candidates only*: every item must quote the transcript verbatim (otherwise it is discarded), and nothing becomes a task or decision until a manager approves it. Transcripts are untrusted data; embedded instructions are flagged and never executed. External messages need a consented recipient, an enabled provider, a manager's approval that has not expired, and are re-validated immediately before sending (task still open, approver still a manager, quiet hours, hourly rate limit). All data access is scoped by workspace; other tenants' records return 404/403.
+## 🚀 Future Improvements
+
+Potential enhancements include:
+
+- Calendar and meeting-platform integrations
+- Improved task assignment and deadline detection
+- Editable action items and human approval workflows
+- Export to task management platforms
+- Meeting history and searchable summaries
+- Authentication, role-based access control, and audit logs
+- Production deployment, monitoring, and automated testing
+
+These are planned enhancements, not claims of existing functionality.
+
+## 👨‍💻 Author
+
+**Waheed Abbas**
+
+Computer Science graduate focused on AI/ML, Agentic AI, and practical AI engineering solutions.
+
+- **GitHub:** [WaheedAbbas199](https://github.com/WaheedAbbas199)
+- **Portfolio:** [View Portfolio](https://waheedportfolio-blush.vercel.app/)
+
+## 📄 License
+
+Add a license if you intend to distribute this project publicly. Until a license is added, do not assume others have permission to reuse the code.
+
+---
+
+*Built as a practical AI engineering project exploring how meeting conversations can become structured, actionable workflows.*
